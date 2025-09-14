@@ -113,11 +113,11 @@ $active_group = 'default';
 $query_builder = true;
 
 // Pengaturan basisdata standar
-$db['default']['hostname']     = 'localhost';
-$db['default']['username']     = 'root';
-$db['default']['password']     = '';
-$db['default']['database']     = 'opensid';
-$db['default']['port']         = 3306;
+$db['default']['hostname']     = $_ENV['DB_HOST'] ?? 'db';
+$db['default']['username']     = $_ENV['DB_USER'] ?? 'admin';
+$db['default']['password']     = $_ENV['DB_PASSWORD'] ?? 'password';
+$db['default']['database']     = $_ENV['DB_NAME'] ?? 'opendesa';
+$db['default']['port']         = $_ENV['DB_PORT'] ?? 3306;
 $db['default']['stricton']     = true;
 $db['default']['dbdriver']     = 'mysqli';
 $db['default']['dbprefix']     = '';
