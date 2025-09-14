@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+
+  # App
+  web:
+    image: ${APP_NAME:-opendesa}:latest
+    container_name: ${APP_NAME:-opendesa}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${APP_PORT:-9999}:80"
+    volumes:
+      - ${PWD}:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  # Db
+  db:
+    image: mariadb:latest
+    container_name: ${APP_NAME:-opendesa}_db
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-password}
+      MARIADB_DATABASE: ${DB_NAME:-opendesa}
+      MARIADB_USER: ${DB_USER:-admin}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-password}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+
+networks:
+  app-network:
+    driver: bridge
